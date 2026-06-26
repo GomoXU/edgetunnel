@@ -12,12 +12,6 @@ const 配置缓存TTL = 60000;
 let 白名单正则缓存 = null, 白名单正则已初始化 = false;
 const 十六进制字符 = "0123456789abcdef";
 function binToHex(a) { const l = a.length; const r = new Array(l * 2); for (let i = 0; i < l; i++) { r[i*2] = 十六进制字符[a[i] >> 4]; r[i*2+1] = 十六进制字符[a[i] & 15]; } return r.join(""); }
-const sha224缓存 = new Map(), DoH缓存 = new Map();
-let 缓存配置JSON = null, 缓存配置时间 = 0;
-const 配置缓存TTL = 60000;
-let 白名单正则缓存 = null, 白名单正则已初始化 = false;
-const 十六进制字符 = "0123456789abcdef";
-function binToHex(a) { const l = a.length; const r = new Array(l * 2); for (let i = 0; i < l; i++) { r[i*2] = 十六进制字符[a[i] >> 4]; r[i*2+1] = 十六进制字符[a[i] & 15]; } return r.join(""); }
 ///////////////////////////////////////////////////////全局常量和工具函数///////////////////////////////////////////////
 const WS早期数据最大字节 = 8 * 1024, WS早期数据最大头长度 = Math.ceil(WS早期数据最大字节 * 4 / 3) + 4;
 const 上行合包目标字节 = 16 * 1024, 上行队列最大字节 = 16 * 1024 * 1024, 上行队列最大条目 = 4096;
