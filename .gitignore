@@ -25,6 +25,7 @@ wrangler-install.log
 *.swo
 *~
 .DS_Store
+.claude
 
 # 环境配置
 .env
