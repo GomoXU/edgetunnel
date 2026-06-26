@@ -2,6 +2,7 @@
 demo/
 tmp/
 
+
 # 依赖包
 node_modules/
 package-lock.json
@@ -17,6 +18,7 @@ GRAINTCP_*
 # Cloudflare Workers
 .wrangler/
 wrangler-install.log
+wrangler.toml
 
 # IDE
 .vscode/
