@@ -1,4 +1,4 @@
-﻿const Version = '2026-06-17 01:41:21';
+const Version = '2026-06-17 01:41:21';
 let config_JSON, 反代IP = '', 启用SOCKS5反代 = null, 启用SOCKS5全局反代 = false, 我的SOCKS5账号 = '', parsedSocks5Address = {};
 let 缓存SOCKS5白名单 = null, 缓存反代IP, 缓存反代解析数组, 缓存反代数组索引 = 0, 启用反代兜底 = true, 调试日志打印 = false;
 let SOCKS5白名单 = ['*tapecontent.net', '*cloudatacdn.com', '*loadshare.org', '*cdn-centaurus.com', 'scholar.google.com'];
@@ -1568,10 +1568,16 @@ async function 处理WS请求(request, yourUUID, url) {
 	// SS 模式下禁用 sec-websocket-protocol early-data，避免把子协议值（如 "binary"）误当作 base64 数据注入首包导致 AEAD 解密失败。
 	if (!SS模式禁用EarlyData && earlyDataHeader) {
 		try {
-			const bytes = 解码WS早期数据(earlyDataHeader, yourUUID);
-			if (bytes?.byteLength) 入队WS显式传输(bytes.buffer);
+			// 添加额外的安全检查：确保协议头不是过长的无效数据
+			if (earlyDataHeader.length > 1024) {
+				log(`[WS转发] 跳过过长的 sec-websocket-protocol 头 (${earlyDataHeader.length} 字符)`);
+			} else {
+				const bytes = 解码WS早期数据(earlyDataHeader, yourUUID);
+				if (bytes?.byteLength) 入队WS显式传输(bytes.buffer);
+			}
 		} catch (error) {
-			处理WS显式传输错误(error);
+			log(`[WS转发] 解码 sec-websocket-protocol 头失败: ${error.message || error}`);
+			// 不要让解码失败导致整个连接崩溃，继续正常处理
 		}
 	}
 
